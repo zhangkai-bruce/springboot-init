@@ -1,5 +1,5 @@
 # 公共配置文件
-# @author <a href="https://github.com/lhccong">程序员聪</a>
+# @author <a href="https://github.com/zhangkai-bruce">bruce</a>
 spring:
   application:
     name: springboot-init

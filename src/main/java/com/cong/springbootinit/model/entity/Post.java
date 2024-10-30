@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * 帖子
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @TableName(value = "post")
 @Data

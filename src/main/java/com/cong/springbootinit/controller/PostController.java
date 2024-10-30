@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * 帖子接口
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @RestController
 @RequestMapping("/post")

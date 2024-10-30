@@ -27,7 +27,7 @@ import java.util.Collections;
 
 /**
  * 微信公众号相关接口
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  **/
 @RestController
 @RequestMapping("/")

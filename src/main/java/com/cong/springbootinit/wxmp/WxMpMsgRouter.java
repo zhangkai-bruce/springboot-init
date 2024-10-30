@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 
 /**
  * 微信公众号路由
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Configuration
 public class WxMpMsgRouter {

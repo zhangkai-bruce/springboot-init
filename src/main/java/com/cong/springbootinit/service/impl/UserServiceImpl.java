@@ -40,7 +40,7 @@ import static com.cong.springbootinit.constant.SystemConstants.SALT;
 
 /**
  * 用户服务实现
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Service
 @Slf4j

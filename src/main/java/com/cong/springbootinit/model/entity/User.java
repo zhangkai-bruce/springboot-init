@@ -1,6 +1,7 @@
 package com.cong.springbootinit.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 /**
  * 用户
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @TableName(value = "user")
 @Data
@@ -56,6 +57,7 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     /**
      * 更新时间

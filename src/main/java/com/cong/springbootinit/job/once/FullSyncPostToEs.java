@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 /**
  * 全量同步帖子到 es
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 // todo 取消注释开启任务
 //@Component

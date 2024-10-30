@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * SQL 工具
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public class SqlUtils {
 

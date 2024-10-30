@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 /**
  * 文件上传业务类型枚举
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public enum FileUploadBizEnum {
 

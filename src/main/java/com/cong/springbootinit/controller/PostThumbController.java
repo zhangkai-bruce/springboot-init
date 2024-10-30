@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 
 /**
  * 帖子点赞接口
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @RestController
 @RequestMapping("/post_thumb")

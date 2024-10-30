@@ -7,7 +7,7 @@ import com.cong.springbootinit.model.entity.User;
 /**
  * 帖子点赞服务
  * <p>
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public interface PostThumbService extends IService<PostThumb> {
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 更新请求
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Data
 public class PostUpdateRequest implements Serializable {

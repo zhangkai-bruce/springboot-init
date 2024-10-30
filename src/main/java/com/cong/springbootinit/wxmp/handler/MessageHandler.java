@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * 消息处理器
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  **/
 @Component
 public class MessageHandler implements WxMpMessageHandler {

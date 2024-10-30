@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * 用户更新个人信息请求
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Data
 public class UserUpdateMyRequest implements Serializable {

@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 /**
  * Cos 操作测试
  * <p>
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @SpringBootTest
 class CosManagerTest {

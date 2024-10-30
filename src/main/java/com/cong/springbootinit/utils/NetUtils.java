@@ -5,7 +5,7 @@ import java.net.InetAddress;
 
 /**
  * 网络工具类
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public class NetUtils {
 

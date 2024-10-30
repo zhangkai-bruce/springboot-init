@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * 用户服务
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public interface UserService extends IService<User> {
 

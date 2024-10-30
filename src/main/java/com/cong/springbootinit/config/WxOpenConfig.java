@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 微信开放平台配置
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Slf4j
 @Configuration

@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 /**
  * 帖子点赞服务实现
  * <p>
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Service
 public class PostThumbServiceImpl extends ServiceImpl<PostThumbMapper, PostThumb>

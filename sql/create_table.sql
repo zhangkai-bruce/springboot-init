@@ -1,5 +1,5 @@
 # 数据库初始化
-# @author <a href="https://github.com/lhccong">程序员聪</a>
+# @author <a href="https://github.com/zhangkai-bruce">bruce</a>
 #
 
 -- 创建库

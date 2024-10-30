@@ -3,7 +3,6 @@ package com.cong.springbootinit.controller;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cong.springbootinit.common.BaseResponse;
-import com.cong.springbootinit.common.DeleteRequest;
 import com.cong.springbootinit.common.ErrorCode;
 import com.cong.springbootinit.common.ResultUtils;
 import com.cong.springbootinit.config.WxOpenConfig;
@@ -29,13 +28,14 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.cong.springbootinit.constant.SystemConstants.SALT;
 
 /**
  * 用户接口
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @RestController
 @RequestMapping("/user")
@@ -176,12 +176,17 @@ public class UserController {
         if (userAddRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        String userAccount = userAddRequest.getUserAccount();
+        User one = userService.lambdaQuery().eq(User::getUserAccount, userAccount).one();
+        if (one != null) {
+            throw new BusinessException(500, "账号重复，请修改！");
+        }
         User user = new User();
         BeanUtils.copyProperties(userAddRequest, user);
-        // 默认密码 12345678
-        String defaultPassword = "12345678";
-        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
-        user.setUserPassword(encryptPassword);
+        if (StringUtils.isNotBlank(user.getUserPassword())) {
+            String encryptPassword = DigestUtils.md5DigestAsHex((SALT + user.getUserPassword()).getBytes());
+            user.setUserPassword(encryptPassword);
+        }
         boolean result = userService.save(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(user.getId());
@@ -190,17 +195,13 @@ public class UserController {
     /**
      * 删除用户
      *
-     * @param deleteRequest 删除请求
      * @return {@link BaseResponse}<{@link Boolean}>
      */
-    @PostMapping("/delete")
+    @DeleteMapping("/delete/{ids}")
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperation(value = "删除用户")
-    public BaseResponse<Boolean> deleteUser(@RequestBody DeleteRequest deleteRequest) {
-        if (deleteRequest == null || deleteRequest.getId() <= 0) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        boolean b = userService.removeById(deleteRequest.getId());
+    public BaseResponse<Boolean> deleteUser(@PathVariable Long[] ids) {
+        boolean b = userService.removeBatchByIds(Arrays.asList(ids));
         return ResultUtils.success(b);
     }
 

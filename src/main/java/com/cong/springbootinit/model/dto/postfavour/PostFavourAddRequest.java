@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * 帖子收藏 / 取消收藏请求
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Data
 public class PostFavourAddRequest implements Serializable {

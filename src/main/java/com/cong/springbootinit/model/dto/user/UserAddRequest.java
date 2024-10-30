@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * 用户创建请求
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Data
 public class UserAddRequest implements Serializable {
@@ -20,6 +20,10 @@ public class UserAddRequest implements Serializable {
      * 账号
      */
     private String userAccount;
+    /**
+     * 密码
+     */
+    private String userPassword;
     /**
      * 用户头像
      */

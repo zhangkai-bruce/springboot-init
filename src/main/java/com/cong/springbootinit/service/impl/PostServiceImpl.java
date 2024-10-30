@@ -46,7 +46,7 @@ import static com.cong.springbootinit.constant.PostConstant.POST_ID;
 
 /**
  * 帖子服务实现
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Service
 @Slf4j

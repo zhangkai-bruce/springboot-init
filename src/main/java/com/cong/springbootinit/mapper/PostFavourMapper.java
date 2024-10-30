@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * 帖子收藏数据库操作
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public interface PostFavourMapper extends BaseMapper<PostFavour> {
 

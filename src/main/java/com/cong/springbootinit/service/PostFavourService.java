@@ -10,7 +10,7 @@ import com.cong.springbootinit.model.entity.User;
 
 /**
  * 帖子收藏服务
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public interface PostFavourService extends IService<PostFavour> {
 
