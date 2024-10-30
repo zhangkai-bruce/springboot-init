@@ -11,5 +11,5 @@ public interface PostConstant {
      */
     String POST_ID = "postId";
 
-    
+
 }

@@ -1,13 +1,14 @@
 package com.cong.springbootinit;
 
 import com.cong.springbootinit.config.WxOpenConfig;
-import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
+
 /**
  * 主类测试
- *
+ * <p>
  * # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 @SpringBootTest

@@ -22,7 +22,7 @@ public class GitHubConfig {
     private String redirectUri;
 
 
-    public AuthRequest getAuthRequest(){
+    public AuthRequest getAuthRequest() {
         return new AuthGithubRequest(AuthConfig.builder()
                 .clientId(clientId)
                 .clientSecret(clientSecret)

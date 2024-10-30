@@ -6,11 +6,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.cong.springbootinit.model.dto.post.PostQueryRequest;
 import com.cong.springbootinit.model.entity.Post;
 import com.cong.springbootinit.model.vo.PostVO;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 帖子服务
- *
+ * <p>
  * # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 public interface PostService extends IService<Post> {
@@ -42,7 +41,7 @@ public interface PostService extends IService<Post> {
     /**
      * 获取帖子封装
      *
-     * @param post    发布
+     * @param post 发布
      * @return {@link PostVO}
      */
     PostVO getPostVO(Post post);

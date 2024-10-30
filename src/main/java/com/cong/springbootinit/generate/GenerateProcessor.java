@@ -27,13 +27,13 @@ import java.util.*;
 @Slf4j
 public class GenerateProcessor {
     /**
-     * 生成程序包名称
-     */
-    private String packageName;
-    /**
      * 排除字段策略
      */
     private final List<String> exclusionStrategy = new ArrayList<>();
+    /**
+     * 生成程序包名称
+     */
+    private String packageName;
 
     public GenerateProcessor packageName(String packageName) {
         this.packageName = packageName;
@@ -55,7 +55,7 @@ public class GenerateProcessor {
     @SneakyThrows
     public GenerateProcessor process(Class<?> clazz, String dataName) {
         if (StringUtils.isBlank(packageName)) {
-           log.error("packageName 不能为空");
+            log.error("packageName 不能为空");
         }
         Field[] fields = clazz.getDeclaredFields();
         String upperDataKey = clazz.getSimpleName();

@@ -13,14 +13,15 @@ import com.cong.springbootinit.model.entity.PostFavour;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.service.PostFavourService;
 import com.cong.springbootinit.service.PostService;
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+
 /**
  * 帖子收藏服务实现
- *
+ * <p>
  * # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 @Service

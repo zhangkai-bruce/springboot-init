@@ -1,5 +1,6 @@
 package com.cong.springbootinit.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,16 +22,7 @@ import com.cong.springbootinit.model.vo.UserVO;
 import com.cong.springbootinit.service.PostService;
 import com.cong.springbootinit.service.UserService;
 import com.cong.springbootinit.utils.SqlUtils;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import cn.hutool.core.collection.CollUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -45,6 +37,10 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.cong.springbootinit.constant.PostConstant.POST_ID;
 
@@ -67,6 +63,39 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+    private static void keySearch(String searchText, String title, String content, BoolQueryBuilder boolQueryBuilder) {
+        // 按关键词检索
+        if (StringUtils.isNotBlank(searchText)) {
+            boolQueryBuilder.should(QueryBuilders.matchQuery("title", searchText));
+            boolQueryBuilder.should(QueryBuilders.matchQuery("description", searchText));
+            boolQueryBuilder.should(QueryBuilders.matchQuery("content", searchText));
+            boolQueryBuilder.minimumShouldMatch(1);
+        }
+        // 按标题检索
+        if (StringUtils.isNotBlank(title)) {
+            boolQueryBuilder.should(QueryBuilders.matchQuery("title", title));
+            boolQueryBuilder.minimumShouldMatch(1);
+        }
+        // 按内容检索
+        if (StringUtils.isNotBlank(content)) {
+            boolQueryBuilder.should(QueryBuilders.matchQuery("content", content));
+            boolQueryBuilder.minimumShouldMatch(1);
+        }
+    }
+
+    private static void filterPost(Long id, Long notId, Long userId, BoolQueryBuilder boolQueryBuilder) {
+        boolQueryBuilder.filter(QueryBuilders.termQuery("isDelete", 0));
+        if (id != null) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("id", id));
+        }
+        if (notId != null) {
+            boolQueryBuilder.mustNot(QueryBuilders.termQuery("id", notId));
+        }
+        if (userId != null) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("userId", userId));
+        }
+    }
 
     @Override
     public void validPost(Post post, boolean add) {
@@ -202,39 +231,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                     }
                 });
             }
-        }
-    }
-
-    private static void keySearch(String searchText, String title, String content, BoolQueryBuilder boolQueryBuilder) {
-        // 按关键词检索
-        if (StringUtils.isNotBlank(searchText)) {
-            boolQueryBuilder.should(QueryBuilders.matchQuery("title", searchText));
-            boolQueryBuilder.should(QueryBuilders.matchQuery("description", searchText));
-            boolQueryBuilder.should(QueryBuilders.matchQuery("content", searchText));
-            boolQueryBuilder.minimumShouldMatch(1);
-        }
-        // 按标题检索
-        if (StringUtils.isNotBlank(title)) {
-            boolQueryBuilder.should(QueryBuilders.matchQuery("title", title));
-            boolQueryBuilder.minimumShouldMatch(1);
-        }
-        // 按内容检索
-        if (StringUtils.isNotBlank(content)) {
-            boolQueryBuilder.should(QueryBuilders.matchQuery("content", content));
-            boolQueryBuilder.minimumShouldMatch(1);
-        }
-    }
-
-    private static void filterPost(Long id, Long notId, Long userId, BoolQueryBuilder boolQueryBuilder) {
-        boolQueryBuilder.filter(QueryBuilders.termQuery("isDelete", 0));
-        if (id != null) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("id", id));
-        }
-        if (notId != null) {
-            boolQueryBuilder.mustNot(QueryBuilders.termQuery("id", notId));
-        }
-        if (userId != null) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("userId", userId));
         }
     }
 

@@ -7,11 +7,10 @@ import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.model.vo.LoginUserVO;
 import com.cong.springbootinit.model.vo.TokenLoginUserVo;
 import com.cong.springbootinit.model.vo.UserVO;
-
-import java.util.List;
-
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.zhyd.oauth.model.AuthCallback;
+
+import java.util.List;
 
 /**
  * 用户服务

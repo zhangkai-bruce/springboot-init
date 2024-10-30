@@ -34,7 +34,7 @@ public interface PostFavourService extends IService<PostFavour> {
      * @return {@link Page}<{@link Post}>
      */
     Page<Post> listFavourPostByPage(IPage<Post> page, Wrapper<Post> queryWrapper,
-            long favourUserId);
+                                    long favourUserId);
 
     /**
      * 做帖子偏爱内部

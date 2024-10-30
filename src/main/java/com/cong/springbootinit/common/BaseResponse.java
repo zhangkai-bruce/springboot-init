@@ -1,13 +1,13 @@
 package com.cong.springbootinit.common;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 通用返回类
  *
- * @param <T>
- * # @author <a href="https://github.com/lhccong">程序员聪</a>
+ * @param <T> # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 @Data
 public class BaseResponse<T> implements Serializable {

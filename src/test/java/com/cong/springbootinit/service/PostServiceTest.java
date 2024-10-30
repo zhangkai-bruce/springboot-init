@@ -3,14 +3,15 @@ package com.cong.springbootinit.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cong.springbootinit.model.dto.post.PostQueryRequest;
 import com.cong.springbootinit.model.entity.Post;
-import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
+
 /**
  * 帖子服务测试
- *
+ * <p>
  * # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 @SpringBootTest

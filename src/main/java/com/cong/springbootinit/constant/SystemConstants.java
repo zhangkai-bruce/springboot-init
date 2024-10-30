@@ -2,6 +2,7 @@ package com.cong.springbootinit.constant;
 
 /**
  * 系统常量
+ *
  * @author liuhuaicong
  * @date 2023/09/11
  */

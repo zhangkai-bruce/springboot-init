@@ -1,12 +1,13 @@
 package com.cong.springbootinit.manager;
 
+import com.cong.springbootinit.config.CosClientConfig;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
-import com.cong.springbootinit.config.CosClientConfig;
-import java.io.File;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.io.File;
 
 /**
  * Cos 对象存储操作

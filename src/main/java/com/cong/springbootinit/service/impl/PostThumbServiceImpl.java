@@ -10,14 +10,15 @@ import com.cong.springbootinit.model.entity.PostThumb;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.service.PostService;
 import com.cong.springbootinit.service.PostThumbService;
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+
 /**
  * 帖子点赞服务实现
- *
+ * <p>
  * # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 @Service

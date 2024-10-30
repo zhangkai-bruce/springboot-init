@@ -10,21 +10,12 @@ import com.cong.springbootinit.config.WxOpenConfig;
 import com.cong.springbootinit.constant.UserConstant;
 import com.cong.springbootinit.exception.BusinessException;
 import com.cong.springbootinit.exception.ThrowUtils;
-import com.cong.springbootinit.model.dto.user.UserAddRequest;
-import com.cong.springbootinit.model.dto.user.UserLoginRequest;
-import com.cong.springbootinit.model.dto.user.UserQueryRequest;
-import com.cong.springbootinit.model.dto.user.UserRegisterRequest;
-import com.cong.springbootinit.model.dto.user.UserUpdateMyRequest;
-import com.cong.springbootinit.model.dto.user.UserUpdateRequest;
+import com.cong.springbootinit.model.dto.user.*;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.model.vo.LoginUserVO;
 import com.cong.springbootinit.model.vo.TokenLoginUserVo;
 import com.cong.springbootinit.model.vo.UserVO;
 import com.cong.springbootinit.service.UserService;
-
-import java.util.List;
-import javax.annotation.Resource;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +26,10 @@ import me.zhyd.oauth.model.AuthCallback;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 import static com.cong.springbootinit.constant.SystemConstants.SALT;
 
@@ -130,6 +119,7 @@ public class UserController {
 
     /**
      * 用户通过 GitHub 登录
+     *
      * @param callback 回调
      * @return {@link BaseResponse}<{@link TokenLoginUserVo}>
      */
@@ -137,7 +127,7 @@ public class UserController {
     @ApiOperation(value = "用户GitHub登录")
     public BaseResponse<TokenLoginUserVo> userLoginByGithub(AuthCallback callback) {
         if (callback.getCode() == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR,"Github 登录失败，code 为空");
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "Github 登录失败，code 为空");
         }
         TokenLoginUserVo tokenLoginUserVo = userService.userLoginByGithub(callback);
         return ResultUtils.success(tokenLoginUserVo);

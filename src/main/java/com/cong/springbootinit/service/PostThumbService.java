@@ -1,12 +1,12 @@
 package com.cong.springbootinit.service;
 
-import com.cong.springbootinit.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cong.springbootinit.model.entity.PostThumb;
 import com.cong.springbootinit.model.entity.User;
 
 /**
  * 帖子点赞服务
- *
+ * <p>
  * # @author <a href="https://github.com/lhccong">程序员聪</a>
  */
 public interface PostThumbService extends IService<PostThumb> {

@@ -11,9 +11,6 @@ import com.cong.springbootinit.model.dto.file.UploadFileRequest;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.model.enums.FileUploadBizEnum;
 import com.cong.springbootinit.service.UserService;
-import java.io.File;
-import java.util.Arrays;
-import javax.annotation.Resource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.util.Arrays;
 
 /**
  * 文件接口
@@ -51,7 +52,7 @@ public class FileController {
     @PostMapping("/upload")
     @ApiOperation(value = "文件上传")
     public BaseResponse<String> uploadFile(@RequestPart("file") MultipartFile multipartFile,
-            UploadFileRequest uploadFileRequest) {
+                                           UploadFileRequest uploadFileRequest) {
         String biz = uploadFileRequest.getBiz();
         FileUploadBizEnum fileUploadBizEnum = FileUploadBizEnum.getEnumByValue(biz);
         if (fileUploadBizEnum == null) {

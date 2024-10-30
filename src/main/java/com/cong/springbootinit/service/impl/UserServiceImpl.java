@@ -1,7 +1,5 @@
 package com.cong.springbootinit.service.impl;
 
-import static com.cong.springbootinit.constant.SystemConstants.SALT;
-
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -22,11 +20,6 @@ import com.cong.springbootinit.model.vo.TokenLoginUserVo;
 import com.cong.springbootinit.model.vo.UserVO;
 import com.cong.springbootinit.service.UserService;
 import com.cong.springbootinit.utils.SqlUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.zhyd.oauth.model.AuthCallback;
@@ -39,6 +32,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.cong.springbootinit.constant.SystemConstants.SALT;
 
 /**
  * 用户服务实现
@@ -298,7 +296,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取用户信息
         AuthUser authUser = (AuthUser) response.getData();
         if (authUser == null) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"Github 登录失败，获取用户信息失败");
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "Github 登录失败，获取用户信息失败");
         }
         //判断用户是否存在
         String userAccount = authUser.getUsername();
@@ -309,13 +307,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             saveGithubUser(userAccount, authUser);
         }
         //2、用户存在，则登录
-        return this.userLogin(userAccount, authUser.getUuid()+authUser.getUsername());
+        return this.userLogin(userAccount, authUser.getUuid() + authUser.getUsername());
     }
 
     private void saveGithubUser(String userAccount, AuthUser authUser) {
         User user;
         user = new User();
-        String defaultPassword = authUser.getUuid()+authUser.getUsername();
+        String defaultPassword = authUser.getUuid() + authUser.getUsername();
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
         user.setUserPassword(encryptPassword);
         user.setUserAccount(userAccount);
