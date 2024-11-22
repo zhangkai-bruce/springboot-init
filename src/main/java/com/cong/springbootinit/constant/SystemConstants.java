@@ -16,7 +16,7 @@ public interface SystemConstants {
     /**
      * 全局盐值
      */
-    String SALT = "cong";
+    String SALT = "zk";
 
 
 }
