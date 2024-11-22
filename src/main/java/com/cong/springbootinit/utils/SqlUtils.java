@@ -4,14 +4,14 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * SQL 工具
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public class SqlUtils {
 
     /**
      * 校验排序字段是否合法（防止 SQL 注入）
+     * <p>
+     * sortField 排序字段
      *
-     * @param sortField 排序字段
      * @return boolean
      */
     public static boolean validSortField(String sortField) {

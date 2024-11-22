@@ -7,7 +7,6 @@ import java.util.Date;
 
 /**
  * 已登录用户视图（脱敏）
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  **/
 @Data
 public class LoginUserVO implements Serializable {

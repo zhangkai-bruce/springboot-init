@@ -3,16 +3,17 @@ package com.cong.springbootinit.service.impl;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cong.springbootinit.common.ErrorCode;
-import com.cong.springbootinit.config.GitHubConfig;
 import com.cong.springbootinit.constant.CommonConstant;
 import com.cong.springbootinit.constant.SystemConstants;
 import com.cong.springbootinit.exception.BusinessException;
 import com.cong.springbootinit.mapper.UserMapper;
+import com.cong.springbootinit.model.dto.user.UserAddRequest;
+import com.cong.springbootinit.model.dto.user.UserLoginRequest;
 import com.cong.springbootinit.model.dto.user.UserQueryRequest;
+import com.cong.springbootinit.model.dto.user.UserRegisterRequest;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.model.enums.UserRoleEnum;
 import com.cong.springbootinit.model.vo.LoginUserVO;
@@ -21,17 +22,11 @@ import com.cong.springbootinit.model.vo.UserVO;
 import com.cong.springbootinit.service.UserService;
 import com.cong.springbootinit.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
-import me.zhyd.oauth.model.AuthCallback;
-import me.zhyd.oauth.model.AuthResponse;
-import me.zhyd.oauth.model.AuthUser;
-import me.zhyd.oauth.request.AuthRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,16 +35,22 @@ import static com.cong.springbootinit.constant.SystemConstants.SALT;
 
 /**
  * 用户服务实现
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Resource
-    private GitHubConfig gitHubConfig;
 
     @Override
-    public long userRegister(String userAccount, String userPassword, String checkPassword) {
+    public long userRegister(UserRegisterRequest userRegisterRequest) {
+        if (userRegisterRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        String userAccount = userRegisterRequest.getUserAccount();
+        String userPassword = userRegisterRequest.getUserPassword();
+        String checkPassword = userRegisterRequest.getCheckPassword();
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
         // 1. 校验
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
@@ -87,7 +88,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public TokenLoginUserVo userLogin(String userAccount, String userPassword) {
+    public TokenLoginUserVo userLogin(UserLoginRequest userLoginRequest) {
+        if (userLoginRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        String userAccount = userLoginRequest.getUserAccount();
+        String userPassword = userLoginRequest.getUserPassword();
+        if (StringUtils.isAnyBlank(userAccount, userPassword)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
         // 1. 校验
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
@@ -129,43 +138,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return loginUserVO;
     }
 
-    @Override
-    public LoginUserVO userLoginByMpOpen(WxOAuth2UserInfo wxOAuth2UserInfo) {
-        String unionId = wxOAuth2UserInfo.getUnionId();
-        String mpOpenId = wxOAuth2UserInfo.getOpenid();
-        // 单机锁
-        synchronized (unionId.intern()) {
-            // 查询用户是否已存在
-            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("unionId", unionId);
-            User user = this.getOne(queryWrapper);
-            // 被封号，禁止登录
-            if (user != null && UserRoleEnum.BAN.getValue().equals(user.getUserRole())) {
-                throw new BusinessException(ErrorCode.FORBIDDEN_ERROR, "该用户已被封，禁止登录");
-            }
-            // 用户不存在则创建
-            if (user == null) {
-                user = new User();
-                user.setUnionId(unionId);
-                user.setMpOpenId(mpOpenId);
-                user.setUserAvatar(wxOAuth2UserInfo.getHeadImgUrl());
-                user.setUserName(wxOAuth2UserInfo.getNickname());
-                boolean result = this.save(user);
-                if (!result) {
-                    throw new BusinessException(ErrorCode.SYSTEM_ERROR, "登录失败");
-                }
-            }
-            // 记录用户的登录态
-            StpUtil.getTokenSession().set(SystemConstants.USER_LOGIN_STATE, user);
-            return getLoginUserVO(user);
-        }
-    }
 
     /**
      * 获取登录用户
      * 获取当前登录用户
-     *
-     * @return {@link User}
+     * <p>
+     * User}
      */
     @Override
     public User getLoginUser() {
@@ -187,8 +165,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 获取登录用户许可 null
      * 获取当前登录用户（允许未登录）
-     *
-     * @return {@link User}
+     * <p>
+     * User}
      */
     @Override
     public User getLoginUserPermitNull() {
@@ -290,37 +268,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public TokenLoginUserVo userLoginByGithub(AuthCallback callback) {
-        AuthRequest authRequest = gitHubConfig.getAuthRequest();
-        AuthResponse response = authRequest.login(callback);
-        // 获取用户信息
-        AuthUser authUser = (AuthUser) response.getData();
-        if (authUser == null) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "Github 登录失败，获取用户信息失败");
+    public long addUser(UserAddRequest userAddRequest) {
+        if (userAddRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        //判断用户是否存在
-        String userAccount = authUser.getUsername();
-
-        //1、用户不存在，则注册
-        User user = this.getOne(new LambdaQueryWrapper<User>().eq(User::getUserAccount, userAccount));
-        if (user == null) {
-            saveGithubUser(userAccount, authUser);
+        String userAccount = userAddRequest.getUserAccount();
+        User one = this.lambdaQuery().eq(User::getUserAccount, userAccount).one();
+        if (one != null) {
+            throw new BusinessException(500, "账号重复，请修改！");
         }
-        //2、用户存在，则登录
-        return this.userLogin(userAccount, authUser.getUuid() + authUser.getUsername());
-    }
-
-    private void saveGithubUser(String userAccount, AuthUser authUser) {
-        User user;
-        user = new User();
-        String defaultPassword = authUser.getUuid() + authUser.getUsername();
-        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
-        user.setUserPassword(encryptPassword);
-        user.setUserAccount(userAccount);
-        user.setUserAvatar(authUser.getAvatar());
-        user.setUserProfile(authUser.getRemark());
-        user.setUserName(authUser.getNickname());
-        user.setUserRole(UserRoleEnum.USER.getValue());
-        this.save(user);
+        User user = new User();
+        BeanUtils.copyProperties(userAddRequest, user);
+        if (StringUtils.isNotBlank(user.getUserPassword())) {
+            String encryptPassword = DigestUtils.md5DigestAsHex((SALT + user.getUserPassword()).getBytes());
+            user.setUserPassword(encryptPassword);
+        }
+        boolean save = this.save(user);
+        if (save) {
+            return user.getId();
+        }
+        return 0;
     }
 }

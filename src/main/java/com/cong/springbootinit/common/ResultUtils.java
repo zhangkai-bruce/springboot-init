@@ -2,15 +2,14 @@ package com.cong.springbootinit.common;
 
 /**
  * 返回工具类
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public class ResultUtils {
 
     /**
      * 成功
-     *
-     * @param data 数据
-     * @return {@link BaseResponse}<{@link T}>
+     * <p>
+     * data 数据
+     * BaseResponse}<{@link T}>
      */
     public static <T> BaseResponse<T> success(T data) {
         return new BaseResponse<>(0, data, "ok");
@@ -19,35 +18,35 @@ public class ResultUtils {
     /**
      * 错误
      * 失败
-     *
-     * @param errorCode 错误代码
-     * @return {@link BaseResponse}
+     * <p>
+     * errorCode 错误代码
+     * BaseResponse}
      */
-    public static BaseResponse error(ErrorCode errorCode) {
+    public static BaseResponse<?> error(ErrorCode errorCode) {
         return new BaseResponse<>(errorCode);
     }
 
     /**
      * 错误
      * 失败
-     *
-     * @param code    法典
-     * @param message 消息
-     * @return {@link BaseResponse}
+     * <p>
+     * code    法典
+     * message 消息
+     * BaseResponse}
      */
-    public static BaseResponse error(int code, String message) {
-        return new BaseResponse(code, null, message);
+    public static BaseResponse<?> error(int code, String message) {
+        return new BaseResponse<>(code, null, message);
     }
 
     /**
      * 错误
      * 失败
-     *
-     * @param errorCode 错误代码
-     * @param message   消息
-     * @return {@link BaseResponse}
+     * <p>
+     * errorCode 错误代码
+     * message   消息
+     * BaseResponse}
      */
-    public static BaseResponse error(ErrorCode errorCode, String message) {
-        return new BaseResponse(errorCode.getCode(), null, message);
+    public static BaseResponse<?> error(ErrorCode errorCode, String message) {
+        return new BaseResponse<>(errorCode.getCode(), null, message);
     }
 }

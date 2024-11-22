@@ -51,7 +51,7 @@ private List
         /**
         * 对象转封装类
         *
-        * @param ${dataKey}
+        ${dataKey}
         * @return
         */
         public static ${upperDataKey}VO objToVo(${upperDataKey} ${dataKey}) {

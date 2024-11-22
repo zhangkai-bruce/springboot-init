@@ -76,7 +76,7 @@ public BaseResponse
     * 删除${dataName}
     *
     * @param deleteRequest 删除${dataName}请求
-    * @return {@link BaseResponse }<{@link Boolean }>
+    BaseResponse }<{@link Boolean }>
     */
     @PostMapping("/delete")
     @ApiOperation(value = "删除${dataName}")
@@ -103,8 +103,8 @@ public BaseResponse
         /**
         * 更新${dataName}（仅管理员可用）
         *
-        * @param ${dataKey}UpdateRequest 更新${dataName}请求
-        * @return {@link BaseResponse }<{@link Boolean }>
+        ${dataKey}UpdateRequest 更新${dataName}请求
+        BaseResponse }<{@link Boolean }>
         */
         @PostMapping("/update")
         @ApiOperation(value = "更新${dataName}（仅管理员可用）")
@@ -132,8 +132,8 @@ public BaseResponse
             /**
             * 根据 id 获取${dataName}（封装类）
             *
-            * @param id ${dataName} id
-            * @return {@link BaseResponse }<{@link ${upperDataKey}VO }>
+            id ${dataName} id
+            BaseResponse }<{@link ${upperDataKey}VO }>
             */
             @GetMapping("/get/vo")
             @ApiOperation(value = "根据 id 获取${dataName}（封装类）")
@@ -150,8 +150,8 @@ public BaseResponse
                 /**
                 * 分页获取${dataName}列表（仅管理员可用）
                 *
-                * @param ${dataKey}QueryRequest 分页获取${dataName}列表请求
-                * @return {@link BaseResponse }<{@link Page }<{@link ${upperDataKey} }>>
+                ${dataKey}QueryRequest 分页获取${dataName}列表请求
+                BaseResponse }<{@link Page }<{@link ${upperDataKey} }>>
                 */
                 @PostMapping("/list/page")
                 @SaCheckRole(UserConstant.ADMIN_ROLE)
@@ -171,8 +171,8 @@ public BaseResponse
                 /**
                 * 分页获取${dataName}列表（封装类）
                 *
-                * @param ${dataKey}QueryRequest 分页获取${dataName}列表请求
-                * @return {@link BaseResponse }<{@link Page }<{@link ${upperDataKey}VO }>>
+                ${dataKey}QueryRequest 分页获取${dataName}列表请求
+                BaseResponse }<{@link Page }<{@link ${upperDataKey}VO }>>
                 */
                 @PostMapping("/list/page/vo")
                 @ApiOperation(value = "分页获取${dataName}列表（封装类）")
@@ -194,8 +194,8 @@ public BaseResponse
                     /**
                     * 分页获取当前登录用户创建的${dataName}列表
                     *
-                    * @param ${dataKey}QueryRequest 分页获取${dataName}列表请求
-                    * @return {@link BaseResponse }<{@link Page }<{@link ${upperDataKey}VO }>>
+                    ${dataKey}QueryRequest 分页获取${dataName}列表请求
+                    BaseResponse }<{@link Page }<{@link ${upperDataKey}VO }>>
                     */
                     @PostMapping("/my/list/page/vo")
                     @ApiOperation(value = "分页获取当前登录用户创建的${dataName}列表")
@@ -221,8 +221,8 @@ public BaseResponse
                         /**
                         * 编辑${dataName}（给用户使用）
                         *
-                        * @param ${dataKey}EditRequest 编辑${dataName}请求
-                        * @return {@link BaseResponse }<{@link Boolean }>
+                        ${dataKey}EditRequest 编辑${dataName}请求
+                        BaseResponse }<{@link Boolean }>
                         */
                         @PostMapping("/edit")
                         @ApiOperation(value = "编辑${dataName}（给用户使用）")

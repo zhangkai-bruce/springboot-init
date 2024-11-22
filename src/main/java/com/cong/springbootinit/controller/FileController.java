@@ -27,7 +27,6 @@ import java.util.Arrays;
 
 /**
  * 文件接口
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @RestController
 @RequestMapping("/file")
@@ -44,10 +43,10 @@ public class FileController {
     /**
      * 上传文件
      * 文件上传
-     *
-     * @param multipartFile     multipart 文件
-     * @param uploadFileRequest 上传文件请求
-     * @return {@link BaseResponse}<{@link String}>
+     * <p>
+     * multipartFile     multipart 文件
+     * uploadFileRequest 上传文件请求
+     * BaseResponse}<{@link String}>
      */
     @PostMapping("/upload")
     @ApiOperation(value = "文件上传")
@@ -88,9 +87,9 @@ public class FileController {
 
     /**
      * 校验文件
-     *
-     * @param fileUploadBizEnum 业务类型
-     * @param multipartFile     multipart 文件
+     * <p>
+     * fileUploadBizEnum 业务类型
+     * multipartFile     multipart 文件
      */
     @ApiOperation(value = "校验文件")
     private void validFile(MultipartFile multipartFile, FileUploadBizEnum fileUploadBizEnum) {

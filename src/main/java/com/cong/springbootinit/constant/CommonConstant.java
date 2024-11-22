@@ -2,7 +2,6 @@ package com.cong.springbootinit.constant;
 
 /**
  * 通用常量
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public interface CommonConstant {
 

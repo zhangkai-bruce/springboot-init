@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 /**
  * 用户注册请求体
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Data
 public class UserRegisterRequest implements Serializable {

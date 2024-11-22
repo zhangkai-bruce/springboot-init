@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 /**
  * 删除请求
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Data
 public class DeleteRequest implements Serializable {

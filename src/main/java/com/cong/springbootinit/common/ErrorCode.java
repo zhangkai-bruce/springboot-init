@@ -2,7 +2,6 @@ package com.cong.springbootinit.common;
 
 /**
  * 自定义错误码
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public enum ErrorCode {
 

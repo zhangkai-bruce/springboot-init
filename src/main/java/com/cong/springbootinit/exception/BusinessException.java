@@ -4,7 +4,6 @@ import com.cong.springbootinit.common.ErrorCode;
 
 /**
  * 自定义异常类
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public class BusinessException extends RuntimeException {
 

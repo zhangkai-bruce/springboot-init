@@ -9,7 +9,6 @@ import java.util.Date;
 
 /**
  * 用户
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @TableName(value = "user")
 @Data

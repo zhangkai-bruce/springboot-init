@@ -17,7 +17,6 @@ import java.util.UUID;
 /**
  * 请求响应日志 AOP
  * <p>
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  **/
 @Aspect
 @Component

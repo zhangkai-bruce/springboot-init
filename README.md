@@ -14,13 +14,13 @@
 
 ### 🏗️ 技术架构
 
-| 类别   | 技术栈                       |
-|------|---------------------------|
-| 核心框架 | Spring Boot 2.7.x         |
-| 数据存储 | MySQL、Redis、Elasticsearch |
-| 对象存储 | 腾讯云 COS                   |
-| 安全框架 | Sa-Token                  |
-| 工具库  | Hutool、Lombok、Easy Excel  |
+| 类别   | 技术栈                      |
+|------|--------------------------|
+| 核心框架 | Spring Boot 2.7.x        |
+| 数据存储 | MySQL、Redis |
+| 对象存储 | 腾讯云 COS                  |
+| 安全框架 | Sa-Token                 |
+| 工具库  | Hutool、Lombok、Easy Excel |
 
 ### 🛠️ 主要功能
 
@@ -39,14 +39,6 @@
     - 登录注册
     - 权限控制
     - 信息修改
-- 📝 内容管理
-    - 帖子 CRUD
-    - 点赞收藏
-    - ES 搜索
-- 📱 微信集成
-    - 开放平台登录
-    - 公众号订阅
-    - 菜单配置
 
 ## 🚦 快速开始
 
@@ -83,8 +75,6 @@ spring:
 ### 4. 初始化数据
 
 1. 执行 `sql/create_table.sql` 创建数据表
-2. 导入 `sql/post_es_mapping.json` 创建 ES 索引
-3. 启动同步任务 (取消 `job` 目录下相关类的 `@Component` 注解注释)
 
 ### 5. 启动服务
 

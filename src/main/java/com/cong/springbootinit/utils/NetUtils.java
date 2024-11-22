@@ -5,16 +5,15 @@ import java.net.InetAddress;
 
 /**
  * 网络工具类
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public class NetUtils {
 
     /**
      * 获取 IP 地址
      * 获取客户端 IP 地址
-     *
-     * @param request 请求
-     * @return {@link String}
+     * <p>
+     * request 请求
+     * String}
      */
     public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");

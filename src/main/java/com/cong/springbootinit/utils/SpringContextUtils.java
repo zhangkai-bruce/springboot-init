@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * Spring 上下文获取工具
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @Component
 public class SpringContextUtils implements ApplicationContextAware {
@@ -17,9 +16,9 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     /**
      * 通过名称获取 Bean
-     *
-     * @param beanName Bean 名称
-     * @return {@link Object}
+     * <p>
+     * beanName Bean 名称
+     * Object}
      */
     public static Object getBean(String beanName) {
         return applicationContext.getBean(beanName);
@@ -27,9 +26,9 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     /**
      * 通过 class 获取 Bean
-     *
-     * @param beanClass Bean 类
-     * @return {@link T}
+     * <p>
+     * beanClass Bean 类
+     * T}
      */
     public static <T> T getBean(Class<T> beanClass) {
         return applicationContext.getBean(beanClass);
@@ -37,10 +36,10 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     /**
      * 通过名称和类型获取 Bean
-     *
-     * @param beanName  Bean 名称
-     * @param beanClass Bean 类
-     * @return {@link T}
+     * <p>
+     * beanName  Bean 名称
+     * beanClass Bean 类
+     * T}
      */
     public static <T> T getBean(String beanName, Class<T> beanClass) {
         return applicationContext.getBean(beanName, beanClass);

@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 /**
  * 用户查询请求
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

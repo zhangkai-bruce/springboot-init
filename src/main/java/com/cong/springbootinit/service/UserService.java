@@ -2,61 +2,48 @@ package com.cong.springbootinit.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cong.springbootinit.model.dto.user.UserAddRequest;
+import com.cong.springbootinit.model.dto.user.UserLoginRequest;
 import com.cong.springbootinit.model.dto.user.UserQueryRequest;
+import com.cong.springbootinit.model.dto.user.UserRegisterRequest;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.model.vo.LoginUserVO;
-import com.cong.springbootinit.model.vo.TokenLoginUserVo;
 import com.cong.springbootinit.model.vo.UserVO;
-import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
-import me.zhyd.oauth.model.AuthCallback;
 
 import java.util.List;
 
 /**
  * 用户服务
- * # @author <a href="https://github.com/zhangkai-bruce">bruce</a>
  */
 public interface UserService extends IService<User> {
 
     /**
      * 用户注册
+     * userAccount   用户账户
+     * userPassword  用户密码
+     * checkPassword 校验密码
      *
-     * @param userAccount   用户账户
-     * @param userPassword  用户密码
-     * @param checkPassword 校验密码
      * @return 新用户 id
      */
-    long userRegister(String userAccount, String userPassword, String checkPassword);
+    long userRegister(UserRegisterRequest userRegisterRequest);
 
     /**
      * 用户登录
+     * userAccount  用户账户
+     * userPassword 用户密码
      *
-     * @param userAccount  用户账户
-     * @param userPassword 用户密码
      * @return 脱敏后的用户信息
      */
-    LoginUserVO userLogin(String userAccount, String userPassword);
+    LoginUserVO userLogin(UserLoginRequest userLoginRequest);
 
-    /**
-     * 用户通过 MP Open 登录
-     * 用户登录（微信开放平台）
-     *
-     * @param wxOauth2UserInfo 从微信获取的用户信息
-     * @return 脱敏后的用户信息
-     */
-    LoginUserVO userLoginByMpOpen(WxOAuth2UserInfo wxOauth2UserInfo);
 
     /**
      * 获取当前登录用户
-     *
-     * @return {@link User}
      */
     User getLoginUser();
 
     /**
      * 获取当前登录用户（允许未登录）
-     *
-     * @return {@link User}
      */
     User getLoginUserPermitNull();
 
@@ -69,8 +56,8 @@ public interface UserService extends IService<User> {
 
     /**
      * 是否为管理员
+     * user 用户
      *
-     * @param user 用户
      * @return boolean
      */
     boolean isAdmin(User user);
@@ -84,41 +71,33 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取脱敏的已登录用户信息
-     *
-     * @param user 用户
-     * @return {@link LoginUserVO}
+     * user 用户
      */
     LoginUserVO getLoginUserVO(User user);
 
     /**
      * 获取脱敏的用户信息
-     *
-     * @param user 用户
-     * @return {@link UserVO}
+     * user 用户
      */
     UserVO getUserVO(User user);
 
     /**
      * 获取脱敏的用户信息
-     *
-     * @param userList 用户列表
-     * @return {@link List}<{@link UserVO}>
+     * userList 用户列表
      */
     List<UserVO> getUserVO(List<User> userList);
 
     /**
      * 获取查询条件
-     *
-     * @param userQueryRequest 用户查询请求
-     * @return {@link QueryWrapper}<{@link User}>
+     * userQueryRequest 用户查询请求
      */
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 
     /**
-     * 用户通过 GitHub 登录
+     * 管理员添加用户
      *
-     * @param callback 回调
-     * @return {@link TokenLoginUserVo }
+     * @param userAddRequest userAddRequest
+     * @return return
      */
-    TokenLoginUserVo userLoginByGithub(AuthCallback callback);
+    long addUser(UserAddRequest userAddRequest);
 }
