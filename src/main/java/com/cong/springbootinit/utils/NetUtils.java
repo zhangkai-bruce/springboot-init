@@ -1,12 +1,32 @@
 package com.cong.springbootinit.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * 网络工具类
  */
+@Slf4j
 public class NetUtils {
+
+
+    /**
+     * 获取本机ip地址
+     *
+     * @return return
+     */
+    public static String getLocalIpAddress() {
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            return inetAddress.getHostAddress();
+        } catch (UnknownHostException e) {
+            log.error("获取本机 IP 地址失败: {}", e.getMessage());
+            return "localhost";
+        }
+    }
 
     /**
      * 获取 IP 地址

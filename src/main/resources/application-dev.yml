@@ -36,6 +36,23 @@ cos:
     secretKey: xxx
     region: xxx
     bucket: xxx
+# 阿里云oss对象存储
+aliyun:
+  oss:
+    endpoint: xxxxxxx
+    accessKeyId: xxxxxxx
+    accessKeySecret: xxxxxxx
+    bucketName: xxxxxxx
+# minio存储
+minio:
+  endpoint: http://localhost:9000
+  port: 9000
+  accessKey: admin
+  secretKey: admin123
+  secure: false
+  bucket-name: ocr
+  image-size: 10485760    # 图片限制10MB
+  file-size: 1073741824   # 文件限制1GB
 
 ############### Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

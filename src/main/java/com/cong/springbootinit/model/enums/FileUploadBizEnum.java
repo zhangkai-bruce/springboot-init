@@ -34,9 +34,6 @@ public enum FileUploadBizEnum {
     /**
      * 按值获取枚举
      * 根据 value 获取枚举
-     * <p>
-     * value 价值
-     * FileUploadBizEnum}
      */
     public static FileUploadBizEnum getEnumByValue(String value) {
         if (ObjectUtils.isEmpty(value)) {

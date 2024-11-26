@@ -6,8 +6,7 @@ package com.cong.springbootinit.constant;
 public interface FileConstant {
 
     /**
-     * COS 访问地址
-     * todo 需替换配置
+     * 图片路径
      */
-    String COS_HOST = "https://cong.icu";
+    String FILE_PATH = "/opt/image/";
 }

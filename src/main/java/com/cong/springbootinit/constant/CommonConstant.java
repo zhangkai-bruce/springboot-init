@@ -15,4 +15,29 @@ public interface CommonConstant {
      */
     String SORT_ORDER_DESC = " descend";
 
+    /**
+     * http请求
+     */
+    String HTTP = "http://";
+
+    /**
+     * https请求
+     */
+    String HTTPS = "https://";
+
+
+    /**
+     * https请求
+     */
+    String PORT = "8101";
+
+    /**
+     * api
+     */
+    String PREFIX = "/api";
+
+    /**
+     * :
+     */
+    String JOIN = ":";
 }

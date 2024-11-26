@@ -31,9 +31,11 @@ public class SaTokenConfigure implements WebMvcConfigurer {
 
     // 接口路径集合
     List<String> apiPaths = Arrays.asList(
+            "/opt/image/**",
             "/user/login",
             "/user/register",
-            "/user/getlogin"
+            "/user/getlogin",
+            "/file/**"
 
     );
 
