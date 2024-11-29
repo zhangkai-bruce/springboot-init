@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cong.springbootinit.common.ErrorCode;
 import com.cong.springbootinit.constant.CommonConstant;
+import com.cong.springbootinit.constant.RedisKey;
 import com.cong.springbootinit.constant.SystemConstants;
 import com.cong.springbootinit.exception.BusinessException;
 import com.cong.springbootinit.mapper.UserMapper;
@@ -21,9 +22,11 @@ import com.cong.springbootinit.model.vo.TokenLoginUserVo;
 import com.cong.springbootinit.model.vo.UserVO;
 import com.cong.springbootinit.service.UserService;
 import com.cong.springbootinit.utils.SqlUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -38,7 +41,10 @@ import static com.cong.springbootinit.constant.SystemConstants.SALT;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Override
     public long userRegister(UserRegisterRequest userRegisterRequest) {
@@ -94,18 +100,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         String userAccount = userLoginRequest.getUserAccount();
         String userPassword = userLoginRequest.getUserPassword();
-        if (StringUtils.isAnyBlank(userAccount, userPassword)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        // 1. 校验
-        if (StringUtils.isAnyBlank(userAccount, userPassword)) {
+        String code = userLoginRequest.getCode();
+        if (StringUtils.isAnyBlank(userAccount, userPassword, code)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
-        if (userAccount.length() < 4) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号错误");
+        // 校验验证码
+        String verifyCode = stringRedisTemplate.opsForValue().get(RedisKey.CODE);
+        if (StringUtils.isBlank(verifyCode)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "验证码已过期");
         }
-        if (userPassword.length() < 8) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码错误");
+        if (!StringUtils.equals(verifyCode, code)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "验证码错误");
         }
         // 2. 加密
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
@@ -119,7 +124,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
-        // 3. 记录用户的登录态
         // 3. 记录用户的登录态
         StpUtil.login(user.getId());
         StpUtil.getTokenSession().set(SystemConstants.USER_LOGIN_STATE, user);

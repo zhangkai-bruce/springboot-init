@@ -31,11 +31,11 @@ public class SaTokenConfigure implements WebMvcConfigurer {
 
     // 接口路径集合
     List<String> apiPaths = Arrays.asList(
-            "/opt/image/**",
-            "/user/login",
-            "/user/register",
-            "/user/getlogin",
-            "/file/**"
+            "/opt/**", // 本地图片映射
+            "/user/login", // 登录
+            "/user/register", // 注册
+            "/file/**", // 测试上传时候，生产关闭
+            "/common/verifyCode" // 验证码生成
 
     );
 

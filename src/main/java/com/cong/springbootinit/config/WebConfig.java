@@ -11,6 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/opt/ocr/image/**").addResourceLocations("file:/opt/ocr/image/");
+        registry.addResourceHandler("/opt/image/**", "/opt/code/**").addResourceLocations("file:/opt/image/", "file:/opt/code/");
     }
 }
