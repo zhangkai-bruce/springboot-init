@@ -26,7 +26,9 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             "/i18n/**",
             "/**/*.ttf",
             "/doc.html",
-            "/swagger-resources"
+            "/favicon.ico",
+            "/swagger-resources",
+            "/v2/api-docs"
     );
 
     // 接口路径集合
