@@ -16,6 +16,12 @@
     <name>springboot-init</name>
 
     <dependencies>
+        <!-- tess4j -->
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>4.5.4</version>
+        </dependency>
         <!--minio依赖-->
         <dependency>
             <groupId>io.minio</groupId>

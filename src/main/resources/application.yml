@@ -43,3 +43,6 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.cong.springbootinit.controller
+# 训练数据文件夹的路径
+tess4j:
+  datapath: ${user.dir}/file

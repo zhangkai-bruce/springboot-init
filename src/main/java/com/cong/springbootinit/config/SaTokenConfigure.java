@@ -28,7 +28,8 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             "/doc.html",
             "/favicon.ico",
             "/swagger-resources",
-            "/v2/api-docs"
+            "/v2/api-docs",
+            "/file/**"
     );
 
     // 接口路径集合
@@ -37,7 +38,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             "/user/login", // 登录
             "/user/register", // 注册
             "/file/**", // 测试上传时候，生产关闭
-            "/common/verifyCode" // 验证码生成
+            "/common/**"
 
     );
 
