@@ -4,12 +4,17 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.exception.NotSafeException;
+import cn.hutool.json.JSONUtil;
 import com.cong.springbootinit.common.BaseResponse;
 import com.cong.springbootinit.common.ErrorCode;
 import com.cong.springbootinit.common.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 全局异常处理器
@@ -23,6 +28,17 @@ public class GlobalExceptionHandler {
         log.error("BusinessException", e);
         return ResultUtils.error(e.getCode(), e.getMessage());
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public BaseResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getFieldErrors().forEach(error -> {
+            errors.put(error.getField(), error.getDefaultMessage());
+        });
+        log.error("请求参数错误！{}", JSONUtil.toJsonStr(errors));
+        return ResultUtils.error(ErrorCode.PARAMS_ERROR, JSONUtil.toJsonStr(errors));
+    }
+
 
     @ExceptionHandler(NotLoginException.class)
     public BaseResponse<?> handleNotLoginException(NotLoginException e) {
