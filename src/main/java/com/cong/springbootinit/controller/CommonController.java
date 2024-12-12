@@ -2,7 +2,6 @@ package com.cong.springbootinit.controller;
 
 import com.cong.springbootinit.common.BaseResponse;
 import com.cong.springbootinit.common.ResultUtils;
-import com.cong.springbootinit.model.dto.file.UploadFileRequest;
 import com.cong.springbootinit.service.CommonService;
 import com.cong.springbootinit.service.FileService;
 import io.swagger.annotations.Api;
@@ -37,10 +36,10 @@ public class CommonController {
     /**
      * 上传文件
      */
-    @GetMapping("/upload")
+    @PostMapping("/upload")
     @ApiOperation(value = "文件上传")
-    public BaseResponse<String> uploadFile(@RequestParam(value = "file") MultipartFile multipartFile, UploadFileRequest uploadFileRequest) {
-        return ResultUtils.success(fileService.uploadFile(multipartFile, uploadFileRequest));
+    public BaseResponse<String> uploadFile(@RequestParam(value = "file") MultipartFile multipartFile, @RequestParam("biz") String biz) {
+        return ResultUtils.success(fileService.uploadFile(multipartFile, biz));
     }
 
     /**

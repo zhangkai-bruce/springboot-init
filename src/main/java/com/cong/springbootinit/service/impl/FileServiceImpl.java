@@ -2,12 +2,11 @@ package com.cong.springbootinit.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import com.cong.springbootinit.common.ErrorCode;
+import com.cong.springbootinit.constant.FileConstant;
 import com.cong.springbootinit.exception.BusinessException;
 import com.cong.springbootinit.manager.MinioManager;
 import com.cong.springbootinit.manager.OssManager;
-import com.cong.springbootinit.model.dto.file.UploadFileRequest;
 import com.cong.springbootinit.model.enums.FileUploadBizEnum;
 import com.cong.springbootinit.service.FileService;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 @Slf4j
@@ -33,18 +31,17 @@ public class FileServiceImpl implements FileService {
      * 2、上传至本地，通过虚拟资源映射展示
      * 3、腾讯云cos
      */
-    public String uploadFile(MultipartFile multipartFile, UploadFileRequest uploadFileRequest) {
-        String biz = uploadFileRequest.getBiz();
+    public String uploadFile(MultipartFile multipartFile, String biz) {
         FileUploadBizEnum fileUploadBizEnum = FileUploadBizEnum.getEnumByValue(biz);
         if (fileUploadBizEnum == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "业务类型错误，应在" + FileUploadBizEnum.getValues() + "范围内！");
+        }
+        if (multipartFile == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         validFile(multipartFile, fileUploadBizEnum);
         // 文件目录：根据业务划分
         String originalFilename = multipartFile.getOriginalFilename();
-        if (StrUtil.isBlank(originalFilename)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
         String filename = IdUtil.simpleUUID().toUpperCase(Locale.ROOT) + originalFilename.substring(originalFilename.lastIndexOf("."));
         // oss上传路径要求前面不能带 /
         String finalFileName = String.format("%s/%s", fileUploadBizEnum.getValue(), filename);
@@ -70,7 +67,7 @@ public class FileServiceImpl implements FileService {
             if (fileSize > oneM) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "文件大小不能超过 10M");
             }
-            if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp").contains(fileSuffix)) {
+            if (!FileConstant.FileType.FILE_TYPE.contains(fileSuffix)) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "暂不支持上传" + fileSuffix + "类型文件！");
             }
         }
