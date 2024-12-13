@@ -38,7 +38,8 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             "/user/login", // 登录
             "/user/register", // 注册
             "/file/**", // 测试上传时候，生产关闭
-            "/common/**"
+            "/common/**",
+            "/test/**"
 
     );
 

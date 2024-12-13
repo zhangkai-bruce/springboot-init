@@ -16,6 +16,12 @@
     <name>springboot-init</name>
 
     <dependencies>
+        <!--Retry重试框架-->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
         <!-- tess4j -->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
