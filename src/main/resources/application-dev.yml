@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/my_db
     username: root
-    password: 111111
+    password: root
 
   # Redis 配置
   redis:
@@ -53,6 +53,13 @@ minio:
   bucket-name: zk-bucket
   image-size: 10485760    # 图片限制10MB
   file-size: 1073741824   # 文件限制1GB
+
+############### Github 配置 ##############
+github:
+  client-id: Ov23li9wqt5WF5rExg1t
+  client-secret: 483cb250019c2a27a047b362fa8e8b62405610bb
+  redirect-uri: http://localhost:8101/api/third/login/github/callback
+
 
 ############### Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

@@ -3,9 +3,11 @@ package com.cong.springbootinit.service.impl;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cong.springbootinit.common.ErrorCode;
+import com.cong.springbootinit.config.GithubConfig;
 import com.cong.springbootinit.constant.CommonConstant;
 import com.cong.springbootinit.constant.RedisKey;
 import com.cong.springbootinit.constant.SystemConstants;
@@ -24,7 +26,12 @@ import com.cong.springbootinit.service.UserService;
 import com.cong.springbootinit.utils.SqlUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.model.AuthCallback;
+import me.zhyd.oauth.model.AuthResponse;
+import me.zhyd.oauth.model.AuthUser;
+import me.zhyd.oauth.request.AuthRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -45,6 +52,7 @@ import static com.cong.springbootinit.constant.SystemConstants.SALT;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final StringRedisTemplate stringRedisTemplate;
+    private final GithubConfig githubConfig;
 
     @Override
     public long userRegister(UserRegisterRequest userRegisterRequest) {
@@ -99,6 +107,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 2. 加密
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
         // 查询用户是否存在
+        User user = getUserByUserAccountAndPassword(userAccount, encryptPassword);
+        // 3. 记录用户的登录态
+        StpUtil.login(user.getId());
+        StpUtil.getTokenSession().set(SystemConstants.USER_LOGIN_STATE, user);
+        return this.getTokenLoginUserVO(user);
+    }
+
+    public TokenLoginUserVo userLogin(String userAccount, String userPassword) {
+        // 2. 加密
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+        User user = getUserByUserAccountAndPassword(userAccount, encryptPassword);
+        // 3. 记录用户的登录态
+        StpUtil.login(user.getId());
+        StpUtil.getTokenSession().set(SystemConstants.USER_LOGIN_STATE, user);
+        return this.getTokenLoginUserVO(user);
+    }
+
+    @NotNull
+    private User getUserByUserAccountAndPassword(String userAccount, String encryptPassword) {
+        // 查询用户是否存在
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userAccount", userAccount);
         queryWrapper.eq("userPassword", encryptPassword);
@@ -108,10 +136,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
-        // 3. 记录用户的登录态
-        StpUtil.login(user.getId());
-        StpUtil.getTokenSession().set(SystemConstants.USER_LOGIN_STATE, user);
-        return this.getTokenLoginUserVO(user);
+        return user;
     }
 
     public TokenLoginUserVo getTokenLoginUserVO(User user) {
@@ -276,5 +301,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return user.getId();
         }
         return 0;
+    }
+
+    @Override
+    public TokenLoginUserVo userLoginByGithub(AuthCallback callback) {
+        AuthRequest authRequest = githubConfig.getAuthRequest();
+        AuthResponse<?> response = authRequest.login(callback);
+        // 获取用户信息
+        AuthUser authUser = (AuthUser) response.getData();
+        if (authUser == null) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "Github 登录失败，获取用户信息失败");
+        }
+        //判断用户是否存在
+        String userAccount = authUser.getUsername();
+        //1、用户不存在，则注册
+        User user = this.getOne(new LambdaQueryWrapper<User>().eq(User::getUserAccount, userAccount));
+        if (user == null) {
+            saveGithubUser(userAccount, authUser);
+        }
+        //2、用户存在，则登录
+        String userPassword = authUser.getUuid();
+        return this.userLogin(userAccount, userPassword);
+    }
+
+
+    private void saveGithubUser(String userAccount, AuthUser authUser) {
+        String defaultPassword = authUser.getUuid();
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
+        User user = new User().setUserPassword(encryptPassword)
+                .setUserAccount(userAccount)
+                .setUserAvatar(authUser.getAvatar())
+                .setUserProfile(authUser.getRemark())
+                .setUserName(authUser.getNickname())
+                .setUserRole(UserRoleEnum.USER.getValue());
+        this.save(user);
     }
 }

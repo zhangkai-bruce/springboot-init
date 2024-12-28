@@ -37,6 +37,8 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             "/opt/**", // 本地图片映射
             "/user/login", // 登录
             "/user/register", // 注册
+            "/third/login/getAuthorizationUrl", // 跳转登录页
+            "/third/login/github/callback", // 第三方登录回调
             "/file/**", // 测试上传时候，生产关闭
             "/common/**",
             "/test/**"

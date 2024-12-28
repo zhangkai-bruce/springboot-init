@@ -3,6 +3,7 @@ package com.cong.springbootinit.model.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 @TableName(value = "user")
 @Data
+@Accessors(chain = true)
 public class User implements Serializable {
 
     @TableField(exist = false)

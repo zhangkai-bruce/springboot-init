@@ -8,7 +8,9 @@ import com.cong.springbootinit.model.dto.user.UserQueryRequest;
 import com.cong.springbootinit.model.dto.user.UserRegisterRequest;
 import com.cong.springbootinit.model.entity.User;
 import com.cong.springbootinit.model.vo.LoginUserVO;
+import com.cong.springbootinit.model.vo.TokenLoginUserVo;
 import com.cong.springbootinit.model.vo.UserVO;
+import me.zhyd.oauth.model.AuthCallback;
 
 import java.util.List;
 
@@ -100,4 +102,12 @@ public interface UserService extends IService<User> {
      * @return return
      */
     long addUser(UserAddRequest userAddRequest);
+
+    /**
+     * 用户通过 GitHub 登录
+     *
+     * @param callback 回调
+     * @return {@link TokenLoginUserVo }
+     */
+    TokenLoginUserVo userLoginByGithub(AuthCallback callback);
 }
