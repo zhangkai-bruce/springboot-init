@@ -114,10 +114,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return this.getTokenLoginUserVO(user);
     }
 
-    public TokenLoginUserVo userLogin(String userAccount, String userPassword) {
-        // 2. 加密
-        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
-        User user = getUserByUserAccountAndPassword(userAccount, encryptPassword);
+    public TokenLoginUserVo loginUserVo(User user) {
+        if (user == null) {
+            throw new BusinessException(ErrorCode.OPERATION_ERROR, "用户信息不存在！");
+        }
         // 3. 记录用户的登录态
         StpUtil.login(user.getId());
         StpUtil.getTokenSession().set(SystemConstants.USER_LOGIN_STATE, user);
@@ -313,23 +313,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "Github 登录失败，获取用户信息失败");
         }
         //判断用户是否存在
-        String userAccount = authUser.getUsername();
-        //1、用户不存在，则注册
-        User user = this.getOne(new LambdaQueryWrapper<User>().eq(User::getUserAccount, userAccount));
+        String githubId = authUser.getUuid();
+        //不存在则注册、存在则直接返回用户信息
+        User user = this.getOne(new LambdaQueryWrapper<User>().eq(User::getGithubId, githubId));
         if (user == null) {
-            saveGithubUser(userAccount, authUser);
+            saveGithubUser(authUser);
         }
-        //2、用户存在，则登录
-        String userPassword = authUser.getUuid();
-        return this.userLogin(userAccount, userPassword);
+        return this.loginUserVo(user);
     }
 
 
-    private void saveGithubUser(String userAccount, AuthUser authUser) {
-        String defaultPassword = authUser.getUuid();
-        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
+    private void saveGithubUser(AuthUser authUser) {
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + authUser.getUuid()).getBytes());
         User user = new User().setUserPassword(encryptPassword)
-                .setUserAccount(userAccount)
+                .setUserAccount(authUser.getUsername())
+                .setGithubId(authUser.getUuid())
                 .setUserAvatar(authUser.getAvatar())
                 .setUserProfile(authUser.getRemark())
                 .setUserName(authUser.getNickname())
