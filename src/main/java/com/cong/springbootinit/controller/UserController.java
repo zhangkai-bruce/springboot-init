@@ -195,4 +195,13 @@ public class UserController {
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }
+
+    /**
+     * 修改状态
+     */
+    @GetMapping("/update/status/{id}/{status}")
+    @ApiOperation(value = "更新个人信息")
+    public BaseResponse<?> updateStatus(@PathVariable Long id, @PathVariable Integer status) {
+        return ResultUtils.success(userService.updateStatus(id, status));
+    }
 }

@@ -30,6 +30,7 @@ import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
@@ -320,6 +321,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             saveGithubUser(authUser);
         }
         return this.loginUserVo(user);
+    }
+
+    @Override
+    public boolean updateStatus(Long id, Integer status) {
+        if (ObjectUtils.anyNull(id, status)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User user = this.lambdaQuery().eq(User::getId, id).one();
+        if (user == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "操作用户不存在！");
+        }
+        user.setStatus(status);
+        return this.updateById(user);
     }
 
 
