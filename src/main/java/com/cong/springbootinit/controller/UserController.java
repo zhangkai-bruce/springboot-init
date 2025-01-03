@@ -103,7 +103,6 @@ public class UserController {
      * 更新用户
      */
     @PostMapping("/update")
-    @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperation(value = "更新用户")
     public BaseResponse<Boolean> updateUser(@RequestBody UserUpdateRequest userUpdateRequest) {
         if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
