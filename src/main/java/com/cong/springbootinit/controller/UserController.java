@@ -2,6 +2,7 @@ package com.cong.springbootinit.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cong.springbootinit.annotation.NoRepeatSubmit;
 import com.cong.springbootinit.common.BaseResponse;
 import com.cong.springbootinit.common.ErrorCode;
 import com.cong.springbootinit.common.ResultUtils;
@@ -199,6 +200,7 @@ public class UserController {
      * 修改状态
      */
     @GetMapping("/update/status/{id}/{status}")
+    @NoRepeatSubmit
     @ApiOperation(value = "更新个人信息")
     public BaseResponse<?> updateStatus(@PathVariable Long id, @PathVariable Integer status) {
         return ResultUtils.success(userService.updateStatus(id, status));

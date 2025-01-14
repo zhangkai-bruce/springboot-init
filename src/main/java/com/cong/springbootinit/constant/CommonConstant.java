@@ -40,4 +40,10 @@ public interface CommonConstant {
      * :
      */
     String JOIN = ":";
+
+    /**
+     * 重复提交间隔时间（秒）
+     */
+    Integer REPEAT_SUBMIT_INTERVAL = 5;
+
 }

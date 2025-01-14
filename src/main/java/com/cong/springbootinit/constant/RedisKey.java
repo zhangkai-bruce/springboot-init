@@ -6,5 +6,18 @@ package com.cong.springbootinit.constant;
  * @Created By bruce.zhang
  */
 public interface RedisKey {
+    /**
+     * 验证码
+     */
     String CODE = "code";
+
+    /**
+     * 防重提交 redis key
+     */
+    String REPEAT_SUBMIT_KEY = "repeat_submit::";
+
+    /**
+     * 连接符
+     */
+    String JOIN = ":";
 }
